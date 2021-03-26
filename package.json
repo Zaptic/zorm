@@ -1,6 +1,6 @@
 {
     "name": "@zaptic-external/zorm",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "ZORM - a typed postgres ORM without classes",
     "main": "dist/zorm.js",
     "types": "dist/zorm.d.ts",
