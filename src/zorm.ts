@@ -27,7 +27,7 @@ export class Entity<EntityType, DefinitionType extends EntityDefinition<EntityTy
     public get(database: Executor, key: EntityType[DefinitionType['primaryKeyFieldName']]) {
         // We need to typecast here because typescript defaults to resolving { [anything]: ... } to { [string]: ... }
         return this.select()
-            .where({ [this.definition.primaryKeyFieldName]: key } as WhereObject<EntityType>) // tslint:disable-line
+            .where({ [this.definition.primaryKeyFieldName]: key } as WhereObject<EntityType>)
             .execute(database)
             .first()
     }
@@ -66,7 +66,7 @@ export class Entity<EntityType, DefinitionType extends EntityDefinition<EntityTy
         newEntity: Partial<EntityType>
     ) {
         return this.update(newEntity)
-            .where({ [this.definition.primaryKeyFieldName]: key } as WhereObject<EntityType>) // tslint:disable-line
+            .where({ [this.definition.primaryKeyFieldName]: key } as WhereObject<EntityType>)
             .execute(database)
             .first()
     }

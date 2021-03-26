@@ -4,7 +4,7 @@ import { Executor } from './executor'
 export class Pool {
     private pool: pg.Pool
 
-    private async connect(): Promise<Executor> {
+    public async connect(): Promise<Executor> {
         const client = await this.pool.connect()
         return new Executor(client)
     }

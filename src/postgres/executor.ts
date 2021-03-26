@@ -12,15 +12,15 @@ export class Executor {
         this.client = client
     }
 
-    private rollback() {
+    public rollback() {
         return this.executeString('ROLLBACK')
     }
 
-    private commit() {
+    public commit() {
         return this.executeString('COMMIT')
     }
 
-    private begin() {
+    public begin() {
         return this.executeString('BEGIN')
     }
 
