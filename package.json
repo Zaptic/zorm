@@ -1,0 +1,27 @@
+{
+    "name": "zorm",
+    "version": "1.0.0",
+    "description": "ZORM - a typed postgres ORM without classes",
+    "main": "dist/zorm.js",
+    "types": "dist/zorm.d.ts",
+    "license": "MIT",
+    "scripts": {
+        "prettier": "prettier --config prettier.config.js '**' --write"
+    },
+    "dependencies": {
+        "lodash.memoize": "4.1.2",
+        "lodash.omit": "4.5.0",
+        "lodash.pick": "4.4.0",
+        "lodash.snakecase": "4.1.1",
+        "pg": "8.5.1"
+    },
+    "devDependencies": {
+        "@types/lodash.memoize": "4.1.6",
+        "@types/lodash.omit": "4.5.6",
+        "@types/lodash.pick": "4.4.6",
+        "@types/lodash.snakecase": "4.1.6",
+        "@types/pg": "7.14.11",
+        "prettier": "2.2.1",
+        "typescript": "4.2.3"
+    }
+}

@@ -1,0 +1,7 @@
+# node stuff
+node_modules
+dist/
+yarn-error.log
+
+# IDES
+.idea/
