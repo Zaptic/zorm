@@ -1,10 +1,11 @@
 {
-    "name": "zorm",
+    "name": "@zaptic-external/zorm",
     "version": "1.0.0",
     "description": "ZORM - a typed postgres ORM without classes",
     "main": "dist/zorm.js",
     "types": "dist/zorm.d.ts",
     "license": "MIT",
+    "repository": "https://github.com/Zaptic/zorm",
     "scripts": {
         "prettier": "prettier --config prettier.config.js '**' --write",
         "test": "mocha --colors --require source-map-support/register --ui bdd $(find dist/ -name '*.test.js')"
