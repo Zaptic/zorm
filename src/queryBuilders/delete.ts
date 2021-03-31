@@ -33,7 +33,7 @@ export class Delete<EntityType, DefinitionType extends EntityDefinition<EntityTy
     public where(whereObject: WhereObject<EntityType>): Delete<EntityType, DefinitionType>
     public where(whereClause: string, whereParams: Array<unknown>): Delete<EntityType, DefinitionType>
     public where(
-        whereClause: string | { [key in keyof Partial<EntityType>]: EntityType[key] | Array<EntityType[key]> },
+        whereClause: string | WhereObject<EntityType>,
         whereParams?: Array<unknown>
     ): Delete<EntityType, DefinitionType> {
         this.query =

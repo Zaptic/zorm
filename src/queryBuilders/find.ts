@@ -1,9 +1,9 @@
 import { getDatabaseName, getDatabaseType } from '../helpers'
-import { BooleanOperator, EntityDefinition } from '../types'
+import { BooleanOperator, EntityDefinition, WhereObject } from '../types'
 
 export function find<EntityType, DefinitionType extends EntityDefinition<EntityType> = EntityDefinition<EntityType>>(
     definition: DefinitionType,
-    whereObject: { [key in keyof Partial<EntityType>]: EntityType[key] | Array<EntityType[key]> },
+    whereObject: WhereObject<EntityType>,
     paramCountStart = 0,
     operator: BooleanOperator = 'AND',
     tableAlias: string | null = null
@@ -37,7 +37,7 @@ export function findWithNesting<
     DefinitionType extends EntityDefinition<EntityType> = EntityDefinition<EntityType>
 >(
     definitions: { [key: string]: EntityDefinition<any>; root: DefinitionType },
-    whereObject: { [key in keyof Partial<EntityType>]: EntityType[key] | Array<EntityType[key]> },
+    whereObject: WhereObject<EntityType>,
     paramCountStart = 0,
     operator: BooleanOperator = 'AND'
 ) {
