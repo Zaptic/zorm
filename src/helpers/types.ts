@@ -1,4 +1,5 @@
-export function isArray<T>(arrayOrNotArray: T | T[]): arrayOrNotArray is T[] {
+export type ArrayOrValue<T> = T | Array<T>
+export function isArray<T>(arrayOrNotArray: ArrayOrValue<T>): arrayOrNotArray is T[] {
     return Array.isArray(arrayOrNotArray)
 }
 

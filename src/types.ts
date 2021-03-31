@@ -1,3 +1,5 @@
+import { ArrayOrValue } from './helpers/types'
+
 interface Reference<ReferenceDatabaseType> {
     entity: EntityDefinition<ReferenceDatabaseType>
     field: keyof ReferenceDatabaseType
@@ -79,7 +81,16 @@ export type InsertableEntity<
 > = Omit<EntityType, OptionalInsertFields<EntityType, DefinitionType['fields']>> &
     Partial<Pick<EntityType, OptionalInsertFields<EntityType, DefinitionType['fields']>>>
 
-export type WhereObject<EntityType> = { [key in keyof Partial<EntityType>]: EntityType[key] | Array<EntityType[key]> }
+export type ComparisonOperation = 'greater' | 'greaterOrEqual' | 'less' | 'lessOrEqual' | 'not'
+export type Comparison<T> = { _op: ComparisonOperation; value: T }
+
+export function isComparison<T>(object: any | Comparison<T>): object is Comparison<T> {
+    return object && object._op !== undefined
+}
+
+export type WhereObject<EntityType> = {
+    [key in keyof Partial<EntityType>]: ArrayOrValue<EntityType[key]> | Comparison<EntityType[key]>
+}
 
 export type QueryDefinitions<
     QueryEntity,

@@ -47,7 +47,7 @@ export class Update<EntityType, DefinitionType extends EntityDefinition<EntityTy
     public where(whereObject: WhereObject<EntityType>): Update<EntityType, DefinitionType>
     public where(whereClause: string, whereParams: Array<unknown>): Update<EntityType, DefinitionType>
     public where(
-        whereClause: string | { [key in keyof Partial<EntityType>]: EntityType[key] | Array<EntityType[key]> },
+        whereClause: string | WhereObject<EntityType>,
         whereParams?: Array<unknown>
     ): Update<EntityType, DefinitionType> {
         this.query =

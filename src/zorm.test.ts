@@ -4,6 +4,7 @@ import { assert } from 'chai'
 import { ref } from './queryBuilders/join'
 import { Pool } from './postgres/pool'
 import { sql } from './postgres/typedQuery'
+import { greater, greaterOrEqual, less, lessOrEqual, not } from './queryBuilders/comparaison'
 
 describe('zorm', function () {
     let database: Executor
@@ -642,5 +643,19 @@ describe('zorm', function () {
         // The definition should not work if the custom types are spelled wrong in the definition
         // @ts-expect-error
         new Entity<User, typeof validDefinition, CustomPostgresTypes>(invalidDefinition)
+    })
+
+    it.only('supports comparisons', async function () {
+        const countries = await countryEntity.createBulk(database, [
+            { id: 1, name: '測試', region: 'Asia', isDeleted: false },
+            { id: 2, name: 'test', region: 'Europe', isDeleted: false },
+            { id: 3, name: "test's neighbourgh", region: 'Europe', isDeleted: false },
+        ])
+
+        assert.deepEqual(await countryEntity.find(database, { id: greater(2) }), countries.slice(2))
+        assert.sameDeepMembers(await countryEntity.find(database, { id: greaterOrEqual(2) }), countries.slice(1))
+        assert.deepEqual(await countryEntity.find(database, { id: less(2) }), countries.slice(0, 1))
+        assert.deepEqual(await countryEntity.find(database, { id: lessOrEqual(2) }), countries.slice(0, 2))
+        assert.deepEqual(await countryEntity.find(database, { id: not(1) }), countries.slice(1))
     })
 })
