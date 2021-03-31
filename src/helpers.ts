@@ -1,5 +1,5 @@
 import snakeCase from 'lodash.snakecase'
-import { EntityDefinition, PostgresType, Generator } from './types'
+import { EntityDefinition, PostgresType, Generator, isComparison } from './types'
 
 /**
  * Returns the database name of the given field for the given definition
@@ -51,6 +51,7 @@ export function getDatabaseType<EntityType>(
  * Infers most common types
  */
 function inferDatabaseType(field: unknown): PostgresType {
+    if (isComparison(field)) return inferDatabaseType(field.value)
     if (typeof field === 'number') return 'int'
     if (typeof field === 'string') return 'text'
     if (typeof field === 'boolean') return 'boolean'

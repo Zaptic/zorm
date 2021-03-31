@@ -1,5 +1,7 @@
 import { getDatabaseName, getDatabaseType } from '../helpers'
-import { BooleanOperator, EntityDefinition, WhereObject } from '../types'
+import { BooleanOperator, EntityDefinition, isComparison, WhereObject } from '../types'
+import { comparisonToWhereClause } from './comparaison'
+import { isArray } from '../helpers/types'
 
 export function find<EntityType, DefinitionType extends EntityDefinition<EntityType> = EntityDefinition<EntityType>>(
     definition: DefinitionType,
@@ -15,8 +17,7 @@ export function find<EntityType, DefinitionType extends EntityDefinition<EntityT
     for (const key in whereObject) {
         const paramValue = whereObject[key]
 
-        // Had to put any here :(, please do better if you can
-        const part = findOne<EntityType, DefinitionType>(definition, key, paramValue as any, parameterCount, tableAlias)
+        const part = findOne<EntityType, DefinitionType>(definition, key, paramValue, parameterCount, tableAlias)
 
         parameterCount = part.paramCount
         whereParts.push(part.whereClause)
@@ -48,18 +49,26 @@ export function findWithNesting<
     for (const key in whereObject) {
         const paramValue = whereObject[key]
 
-        if (paramValue && !Array.isArray(paramValue) && typeof paramValue === 'object') {
+        if (
+            !paramValue ||
+            isComparison<WhereObject<EntityType>[keyof WhereObject<EntityType>]>(paramValue) ||
+            isArray(paramValue)
+        ) {
+            const part = findOne<EntityType, DefinitionType>(
+                definitions.root,
+                key,
+                paramValue as WhereObject<EntityType>[typeof key],
+                parameterCount
+            )
+
+            parameterCount = part.paramCount
+            whereParts.push(part.whereClause)
+            whereParams.push(...part.whereParams)
+        } else {
             // In this case we have a nested object so we want to resolve with the proper definition
             const part = find(definitions[key], paramValue, parameterCount, 'AND', key)
 
             parameterCount = part.parameterCount
-            whereParts.push(part.whereClause)
-            whereParams.push(...part.whereParams)
-        } else {
-            // Had to put any here :(, please do better if you can
-            const part = findOne<EntityType, DefinitionType>(definitions.root, key, paramValue as any, parameterCount)
-
-            parameterCount = part.paramCount
             whereParts.push(part.whereClause)
             whereParams.push(...part.whereParams)
         }
@@ -72,10 +81,24 @@ function findOne<
     EntityType,
     DefinitionType extends EntityDefinition<EntityType> = EntityDefinition<EntityType>,
     Key extends keyof EntityType = keyof EntityType
->(definition: DefinitionType, key: Key, value: EntityType[Key], paramCount = 0, tableAlias: string | null = null) {
+>(
+    definition: DefinitionType,
+    key: Key,
+    value: WhereObject<EntityType>[Key],
+    paramCount = 0,
+    tableAlias: string | null = null
+) {
     const dbFieldName = tableAlias
         ? `"${tableAlias}".${getDatabaseName(definition, key, false)}`
         : getDatabaseName(definition, key, true)
+
+    if (isComparison(value)) {
+        const paramType = getDatabaseType(definition, key, value)
+        const comparison = comparisonToWhereClause(value)
+        comparison.whereClause = `${dbFieldName} ${comparison.whereClause}::${paramType}`
+
+        return comparison
+    }
 
     const result = {
         paramCount: value !== null ? paramCount + 1 : paramCount, // Because we use IS NULL for the null case
@@ -83,8 +106,7 @@ function findOne<
     }
 
     if (value === null) return { ...result, whereClause: `${dbFieldName} IS NULL` }
-
-    if (Array.isArray(value)) {
+    else if (Array.isArray(value)) {
         const paramType = getDatabaseType(definition, key, value[0])
         return { ...result, whereClause: `${dbFieldName} = ANY($${result.paramCount}::${paramType}[])` }
     } else {
