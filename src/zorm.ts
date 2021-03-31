@@ -3,7 +3,11 @@ import { getFieldList } from './helpers'
 import * as Builders from './queryBuilders'
 import { EntityDefinition, InsertableEntity, WhereObject } from './types'
 
-export class Entity<EntityType, DefinitionType extends EntityDefinition<EntityType> = EntityDefinition<EntityType>> {
+export class Entity<
+    EntityType,
+    DefinitionType extends EntityDefinition<EntityType, CustomTypes> = EntityDefinition<EntityType, never>,
+    CustomTypes extends string = never
+> {
     public readonly definition: DefinitionType
 
     constructor(definition: DefinitionType) {

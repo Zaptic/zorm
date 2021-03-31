@@ -14,7 +14,7 @@ interface InsertQuery {
     isBulk: boolean
 }
 
-function getParameter(databaseType: PostgresType, value: unknown) {
+function getParameter<CustomTypes extends string>(databaseType: PostgresType | CustomTypes, value: unknown) {
     if (value == null) return null
     if (databaseType === 'jsonb') return JSON.stringify(value)
     return value

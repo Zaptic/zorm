@@ -611,4 +611,36 @@ describe('zorm', function () {
             ]
         )
     })
+
+    it('supports custom types', async function () {
+        type CustomPostgresTypes = 'user_state' | 'user_email_state'
+
+        type User = {
+            id: number
+            state: 'active' | 'invited' | 'blocked'
+            emailState: 'sent' | 'seen' | 'clicked' | 'errored'
+        }
+
+        const validDefinition = <const>{
+            tableName: 'user',
+            primaryKeyFieldName: 'id',
+            fields: { id: {}, state: { type: 'user_state' }, emailState: { type: 'user_email_state' } },
+        }
+
+        new Entity<User, typeof validDefinition, CustomPostgresTypes>(validDefinition)
+
+        // The definition should not work if the custom types are not passed in
+        // @ts-expect-error
+        new Entity<User, typeof validDefinition>(validDefinition)
+
+        const invalidDefinition = <const>{
+            tableName: 'user',
+            primaryKeyFieldName: 'id',
+            fields: { id: {}, state: { type: 'user_state' }, emailState: { type: 'wrong' } },
+        }
+
+        // The definition should not work if the custom types are spelled wrong in the definition
+        // @ts-expect-error
+        new Entity<User, typeof validDefinition, CustomPostgresTypes>(invalidDefinition)
+    })
 })

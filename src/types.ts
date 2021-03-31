@@ -5,8 +5,6 @@ interface Reference<ReferenceDatabaseType> {
 
 export type BooleanOperator = 'AND' | 'OR'
 
-type CustomTypes = 'user_type' | 'api_token_status' | 'email_status'
-
 export type PostgresType =
     | 'uuid'
     | 'timestamptz'
@@ -18,15 +16,19 @@ export type PostgresType =
     | 'point'
     | 'tstzrange'
     | 'tsvector'
-    | CustomTypes
 
-export interface FieldDefinition<EntityType, FieldType extends EntityType[keyof EntityType], Ref = any> {
+export interface FieldDefinition<
+    EntityType,
+    FieldType extends EntityType[keyof EntityType],
+    CustomTypes extends string = string,
+    Ref = any
+> {
     name?: string
     references?: Reference<Ref>
     hasDBDefault?: boolean
     nullable?: boolean
     generator?: Generator<EntityType, FieldType>
-    type?: PostgresType
+    type?: PostgresType | CustomTypes
 }
 
 export interface Generator<
@@ -38,10 +40,10 @@ export interface Generator<
     deps?: Dep[]
 }
 
-export interface EntityDefinition<EntityType> {
+export interface EntityDefinition<EntityType, CustomTypes extends string = string> {
     tableName: string
     primaryKeyFieldName: keyof EntityType
-    fields: { [FieldName in keyof EntityType]: FieldDefinition<EntityType, EntityType[FieldName]> }
+    fields: { [FieldName in keyof EntityType]: FieldDefinition<EntityType, EntityType[FieldName], CustomTypes> }
 }
 
 /**
