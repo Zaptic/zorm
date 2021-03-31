@@ -6,7 +6,6 @@ export type ResultPattern<E, O, T> = {
 }
 
 /** Represent operations that may fail */
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Result {
     export function ok<O, E = unknown>(value: O): Result<E, O> {
         return new Ok(value)

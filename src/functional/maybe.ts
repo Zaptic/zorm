@@ -5,7 +5,6 @@ import { extendedPromise, PromiseExecutor } from '../helpers/promiseExecutor'
  * Represent the result of an operation that may or may not return a
  * value
  */
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Maybe {
     export function just<T>(value: T): Maybe<T> {
         return new Just(value)

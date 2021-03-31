@@ -20,7 +20,6 @@ export type PostgresType =
     | 'tsvector'
     | CustomTypes
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface FieldDefinition<EntityType, FieldType extends EntityType[keyof EntityType], Ref = any> {
     name?: string
     references?: Reference<Ref>

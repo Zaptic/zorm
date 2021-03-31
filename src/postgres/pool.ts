@@ -19,7 +19,6 @@ export class Pool {
      */
     public static run<T>(cfg: pg.PoolConfig, fn: (database: Executor) => Promise<T>) {
         const pool = new Pool({ ...cfg, max: 1 }) // Force the max to 1 as there is no point making more in this context
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         return pool.run(fn).finally(() => pool.close())
     }
 
@@ -33,7 +32,6 @@ export class Pool {
      */
     public static runInTransaction<T>(cfg: pg.PoolConfig, fn: (database: Executor) => Promise<T>) {
         const pool = new Pool({ ...cfg, max: 1 }) // Force the max to 1 as there is no point making more in this context
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         return pool.runInTransaction(fn).finally(() => pool.close())
     }
 
