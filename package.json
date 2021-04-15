@@ -8,7 +8,8 @@
     "repository": "https://github.com/Zaptic/zorm",
     "scripts": {
         "prettier": "prettier --config prettier.config.js '**' --write",
-        "test": "mocha --colors --require source-map-support/register --ui bdd $(find dist/ -name '*.test.js')"
+        "test": "mocha --colors --require source-map-support/register --ui bdd $(find dist/ -name '*.test.js')",
+        "tsc": "tsc"
     },
     "dependencies": {
         "@zaptic-external/pg-plus": "^1.0.0",
