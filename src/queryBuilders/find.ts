@@ -52,7 +52,8 @@ export function findWithNesting<
         if (
             !paramValue ||
             isComparison<WhereObject<EntityType>[keyof WhereObject<EntityType>]>(paramValue) ||
-            isArray(paramValue)
+            isArray(paramValue) ||
+            typeof paramValue !== 'object'
         ) {
             const part = findOne<EntityType, DefinitionType>(
                 definitions.root,

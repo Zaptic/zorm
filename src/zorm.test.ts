@@ -643,7 +643,7 @@ describe('zorm', function () {
         new Entity<User, typeof validDefinition, CustomPostgresTypes>(invalidDefinition)
     })
 
-    it.only('supports comparisons', async function () {
+    it('supports comparisons', async function () {
         const countries = await countryEntity.createBulk(database, [
             { id: 1, name: '測試', region: 'Asia', isDeleted: false },
             { id: 2, name: 'test', region: 'Europe', isDeleted: false },
