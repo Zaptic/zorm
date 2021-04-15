@@ -1,4 +1,4 @@
-import { Executor } from '../postgres/executor'
+import { Executor } from '@zaptic-external/pg-plus'
 import { getFieldList } from '../helpers'
 import { EntityDefinition, WhereObject } from '../types'
 import { find } from './find'
@@ -55,6 +55,6 @@ export class Delete<EntityType, DefinitionType extends EntityDefinition<EntityTy
 
         queryString += ` RETURNING ${returnFields.join(', ')}`
 
-        return database.executeString<unknown, EntityType>(queryString, whereParams)
+        return database.executeString<unknown[], EntityType>(queryString, whereParams)
     }
 }

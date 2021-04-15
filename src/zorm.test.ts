@@ -1,9 +1,7 @@
-import { Executor } from './postgres/executor'
+import { Executor, Pool, sql } from '@zaptic-external/pg-plus'
 import { Entity } from './zorm'
 import { assert } from 'chai'
 import { ref } from './queryBuilders/join'
-import { Pool } from './postgres/pool'
-import { sql } from './postgres/typedQuery'
 import { greater, greaterOrEqual, less, lessOrEqual, not } from './queryBuilders/comparaison'
 
 describe('zorm', function () {

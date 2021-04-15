@@ -1,8 +1,7 @@
-import { Executor } from '../postgres/executor'
+import { Executor, DBResultPromise } from '@zaptic-external/pg-plus'
 import { QueryResult } from 'pg'
 import { getDatabaseName, getDatabaseType, getFieldList } from '../helpers'
 import { EntityDefinition, InsertableEntity, PostgresType } from '../types'
-import { DBResultPromise } from '../postgres/errors'
 import { isArray } from '../helpers/types'
 
 interface InsertQuery {
@@ -121,6 +120,6 @@ export class Insert<EntityType, DefinitionType extends EntityDefinition<EntityTy
             RETURNING ${this.query.returnFields.join(', ')}
         `
 
-        return database.executeString<unknown, EntityType>(query, this.query.insertParams)
+        return database.executeString<unknown[], EntityType>(query, this.query.insertParams)
     }
 }

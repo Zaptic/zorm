@@ -1,4 +1,4 @@
-import { Executor } from '../postgres/executor'
+import { Executor } from '@zaptic-external/pg-plus'
 import { getDatabaseName, getFieldList, getSelectFields } from '../helpers'
 import { BooleanOperator, EntityDefinition, QueryDefinitions, WhereObject } from '../types'
 import { findWithNesting } from './find'
@@ -253,7 +253,7 @@ export class Select<
             allParams.push(offset)
         }
 
-        return database.executeString<unknown, SelectedFields>(queryString, allParams)
+        return database.executeString<unknown[], SelectedFields>(queryString, allParams)
     }
 }
 

@@ -1,4 +1,4 @@
-import { Executor } from '../postgres/executor'
+import { Executor } from '@zaptic-external/pg-plus'
 import { getDatabaseType, getFieldList } from '../helpers'
 import { EntityDefinition, WhereObject } from '../types'
 import { find } from './find'
@@ -69,6 +69,6 @@ export class Update<EntityType, DefinitionType extends EntityDefinition<EntityTy
 
         queryString += ` RETURNING ${returnFields.join(', ')}`
 
-        return database.executeString<unknown, EntityType>(queryString, updateParams.concat(whereParams))
+        return database.executeString<unknown[], EntityType>(queryString, updateParams.concat(whereParams))
     }
 }

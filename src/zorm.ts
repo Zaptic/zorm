@@ -1,4 +1,4 @@
-import { Executor } from './postgres/executor'
+import { Executor } from '@zaptic-external/pg-plus'
 import { getFieldList } from './helpers'
 import * as Builders from './queryBuilders'
 import { EntityDefinition, InsertableEntity, WhereObject } from './types'
