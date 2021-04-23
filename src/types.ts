@@ -9,6 +9,7 @@ export type BooleanOperator = 'AND' | 'OR'
 
 export type PostgresType =
     | 'uuid'
+    | 'timestamp'
     | 'timestamptz'
     | 'text'
     | 'int'
@@ -18,6 +19,7 @@ export type PostgresType =
     | 'point'
     | 'tstzrange'
     | 'tsvector'
+    | 'interval'
 
 export interface FieldDefinition<
     EntityType,
