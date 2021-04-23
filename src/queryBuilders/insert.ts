@@ -1,5 +1,5 @@
 import { Executor, DBResultPromise } from '@zaptic-external/pg-plus'
-import { QueryResult } from 'pg'
+import type { QueryResult } from 'pg'
 import { getDatabaseName, getDatabaseType, getFieldList } from '../helpers'
 import { EntityDefinition, InsertableEntity, PostgresType } from '../types'
 import { isArray } from '../helpers/types'
