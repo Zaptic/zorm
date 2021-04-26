@@ -12,14 +12,14 @@
         "tsc": "tsc"
     },
     "dependencies": {
-        "@zaptic-external/pg-plus": "^1.0.0",
+        "@zaptic-external/pg-plus": "1.0.1",
         "lodash.memoize": "4.1.2",
         "lodash.omit": "4.5.0",
         "lodash.pick": "4.4.0",
         "lodash.snakecase": "4.1.1"
     },
     "devDependencies": {
-        "@types/chai": "^4.2.15",
+        "@types/chai": "4.2.15",
         "@types/lodash.memoize": "4.1.6",
         "@types/lodash.omit": "4.5.6",
         "@types/lodash.pick": "4.4.6",
