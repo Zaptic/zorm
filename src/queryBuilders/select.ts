@@ -99,7 +99,8 @@ export class Select<
      * condition is done on
      */
     public join<OtherEntityType, Fields extends { [key: string]: keyof OtherEntityType }, Alias extends string>(
-        otherEntity: Entity<OtherEntityType>,
+        // Haven't found better than any, but it's mostly irrelevant here.
+        otherEntity: Entity<OtherEntityType, EntityDefinition<OtherEntityType, any>>,
         alias: Alias,
         on: JoinOn<EntityType, OtherEntityType>,
         fields: Fields,
@@ -157,7 +158,8 @@ export class Select<
      * condition is done on
      */
     public leftJoin<OtherEntityType, Fields extends { [key: string]: keyof OtherEntityType }, Alias extends string>(
-        otherEntity: Entity<OtherEntityType>,
+        // Haven't found better than any, but it's mostly irrelevant here.
+        otherEntity: Entity<OtherEntityType, EntityDefinition<OtherEntityType, any>>,
         alias: Alias,
         on: JoinOn<EntityType, OtherEntityType>,
         fields: Fields,
