@@ -53,13 +53,12 @@ export class Insert<EntityType, DefinitionType extends EntityDefinition<EntityTy
             this.query.returnFields.push(`${databaseFieldName} AS "${typescriptFieldName}"`)
 
             if (isArray(newEntities)) {
-                if (newEntities[0][typescriptFieldName] === undefined) return
+                const firstEntityWithValue = newEntities.find((e) => e[typescriptFieldName] !== undefined)
+                if (firstEntityWithValue === undefined) return
 
-                const databaseType = getDatabaseType(
-                    this.definition,
-                    typescriptFieldName,
-                    newEntities[0][typescriptFieldName]
-                )
+                const firstValue = firstEntityWithValue[typescriptFieldName]
+
+                const databaseType = getDatabaseType(this.definition, typescriptFieldName, firstValue)
 
                 this.query.insertParams.push(
                     newEntities.map((entity) => getParameter(databaseType, entity[typescriptFieldName]))
