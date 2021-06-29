@@ -274,6 +274,20 @@ describe('zorm', function () {
         ])
     })
 
+    it('creates in bulk with null field in the first row', async function () {
+        const created = await countryEntity.createBulk(database, [
+            { id: 15, name: 'test', isDeleted: false, region: null },
+            { id: 16, name: 'test 2', isDeleted: false, region: 'Americas' },
+            { id: 17, name: 'test 3', isDeleted: false, region: 'Asia' },
+        ])
+
+        assert.deepEqual(created, [
+            { id: 15, name: 'test', isDeleted: false, region: null },
+            { id: 16, name: 'test 2', isDeleted: false, region: 'Americas' },
+            { id: 17, name: 'test 3', isDeleted: false, region: 'Asia' },
+        ])
+    })
+
     it('does nothing when bulk create is passed empty array', async function () {
         assert.doesNotThrow(() => countryEntity.createBulk(database, []))
     })
