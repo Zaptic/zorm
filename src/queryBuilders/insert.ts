@@ -53,7 +53,7 @@ export class Insert<EntityType, DefinitionType extends EntityDefinition<EntityTy
             this.query.returnFields.push(`${databaseFieldName} AS "${typescriptFieldName}"`)
 
             if (isArray(newEntities)) {
-                const firstEntityWithValue = newEntities.find((e) => e[typescriptFieldName] !== undefined)
+                const firstEntityWithValue = newEntities.find((e) => e[typescriptFieldName] != null)
                 if (firstEntityWithValue === undefined) return
 
                 const firstValue = firstEntityWithValue[typescriptFieldName]
