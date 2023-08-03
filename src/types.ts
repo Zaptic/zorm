@@ -13,6 +13,7 @@ export type PostgresType =
     | 'timestamptz'
     | 'text'
     | 'int'
+    | 'bigint'
     | 'float'
     | 'jsonb'
     | 'boolean'
