@@ -101,17 +101,33 @@ function findOne<
         return comparison
     }
 
-    const result = {
-        paramCount: value !== null ? paramCount + 1 : paramCount, // Because we use IS NULL for the null case
-        whereParams: value !== null ? [value] : [],
+    const resultWithoutParam = {
+        paramCount,
+        whereParams: [],
     }
 
-    if (value === null) return { ...result, whereClause: `${dbFieldName} IS NULL` }
-    else if (Array.isArray(value)) {
+    if (value === null) {
+        return { ...resultWithoutParam, whereClause: `${dbFieldName} IS NULL` }
+    } else if (Array.isArray(value) && value.length === 0) {
+        return { ...resultWithoutParam, whereClause: `FALSE` }
+    }
+
+    const resultWithParam = {
+        paramCount: paramCount + 1,
+        whereParams: [value],
+    }
+
+    if (Array.isArray(value)) {
         const paramType = getDatabaseType(definition, key, value[0])
-        return { ...result, whereClause: `${dbFieldName} = ANY($${result.paramCount}::${paramType}[])` }
+        return {
+            ...resultWithParam,
+            whereClause: `${dbFieldName} = ANY($${resultWithParam.paramCount}::${paramType}[])`,
+        }
     } else {
         const paramType = getDatabaseType(definition, key, value)
-        return { ...result, whereClause: `${dbFieldName} = $${result.paramCount}::${paramType}` }
+        return {
+            ...resultWithParam,
+            whereClause: `${dbFieldName} = $${resultWithParam.paramCount}::${paramType}`,
+        }
     }
 }
