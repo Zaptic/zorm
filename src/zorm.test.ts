@@ -173,6 +173,15 @@ describe('zorm', function () {
         assert.deepEqual(result, [france])
     })
 
+    it('handles empty arrays in where clause', async function () {
+        await countryEntity.create(database, { name: 'UK', isDeleted: false, region: 'Europe' })
+        await countryEntity.create(database, { name: 'Chance', isDeleted: false, region: 'Asia' })
+
+        const result = await countryEntity.select().where({ region: [] }).execute(database)
+
+        assert.deepEqual(result, [])
+    })
+
     it('handles nulls in insert statements', async function () {
         await countryEntity.create(database, { name: 'UK', isDeleted: false, region: 'Europe' })
         await countryEntity.create(database, { name: 'Chance', isDeleted: false, region: 'Asia' })
